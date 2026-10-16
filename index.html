@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>         
 <html lang="en">        
     <head>            
@@ -27,7 +24,7 @@
             <div class="item">
                 <div>
                     <input type="checkbox"/>
-                    <span class="name">吃饭</span>
+                    <span class="name">睡觉</span>
                 </div>
                 
                 <div class="del">del</div>
@@ -36,13 +33,58 @@
             <div class="item">
                 <div>
                     <input type="checkbox"/>
-                    <span class="name">吃饭</span>
+                    <span class="name">打豆豆</span>
                 </div>
                 
                 <div class="del">del</div>
             </div>
         </div>
-            
+
+        <script>
+            // 1. 抓元素
+            const input = document.querySelector('.todo-input');
+            const addBtn = document.querySelector('.todo-button');
+            const app = document.querySelector('.todo-app');
+
+            // 2. 点击 Add todo
+            addBtn.addEventListener('click', function () {
+                const text = input.value.trim();
+
+                if (text === '') {
+                    alert('请输入内容');
+                    return;
+                }
+
+                // 3. 造一个新的 item
+                const item = document.createElement('div');
+                item.className = 'item';
+                item.innerHTML = `
+                    <div>
+                        <input type="checkbox"/>
+                        <span class="name">${text}</span>
+                    </div>
+                    <div class="del">del</div>
+                `;
+
+                app.appendChild(item);
+                input.value = '';
+            });
+
+            // 4. 事件委托：点 del 就删掉整条
+            app.addEventListener('click', function (e) {
+                if (e.target.classList.contains('del')) {
+                    e.target.closest('.item').remove();
+                }
+            });
+
+            // 5. 勾选框：勾上划线，取消勾恢复
+            app.addEventListener('change', function (e) {
+                if (e.target.type === 'checkbox') {
+                    const item = e.target.closest('.item');
+                    item.classList.toggle('completed', e.target.checked);
+                }
+            });
+        </script>
 
         <style>
             .completed{
@@ -51,6 +93,7 @@
             }
             .del {
                 color: red;
+                cursor: pointer;
 
             }
             .item {
@@ -120,5 +163,3 @@
         </style>
     </body>         
 </html> 
-
-
